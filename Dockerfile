@@ -20,14 +20,13 @@ HOST="wasm32-unknown-wasi" \
 CFLAGS="--sysroot=/opt/wasi-sdk/share/sysroot --target=wasm32-unknown-wasi"
 
 WORKDIR /src/secp256k1
+VOLUME /build
 RUN ./autogen.sh
 RUN grep -q -F -- '-wasi' build-aux/config.sub || sed -i -e 's/-nacl\*)/-nacl*|-wasi)/' build-aux/config.sub
-RUN ./configure --enable-endomorphism --enable-module-ecdh \
+RUN ./configure --prefix=/build --enable-endomorphism --enable-module-ecdh \
                 --enable-module-recovery --with-asm=no --host=wasm32-unknown-wasi \
                 --with-bignum=no --enable-experimental \
                 --disable-exhaustive-tests --disable-tests \
                 --disable-benchmark
 RUN make
-VOLUME /data
-COPY entrypoint.sh entrypoint.sh
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT [ "make", "install" ]

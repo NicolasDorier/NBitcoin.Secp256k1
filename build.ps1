@@ -5,4 +5,4 @@ If(test-path "bin")
     Start-Sleep -Seconds 1
 }
 New-Item -ItemType Directory -path "bin"
-docker run -v "$(Get-Location)/bin:/data" secp256k1
+docker run -v "$(Get-Location)/bin:/build" secp256k1

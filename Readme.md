@@ -17,9 +17,12 @@ This assembly can then just be used in .NET projects on any runtime supporting .
 
 You need to have docker installed on your system, then you can run
 
+In powershell
 ```powershell
 .\build.ps1
 ```
+
+In bash
 ```bash
 ./build.sh
 ```

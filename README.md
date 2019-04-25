@@ -34,7 +34,7 @@ The binaries will be found in the `bin` folder at the root of this repository.
 It is sometimes helpful to connect inside the container to browse what is going on inside it, so after you ran the build script, you can run:
 
 ```bash
-docker run secp256k1
+docker run --rm -ti --entrypoint bash secp256k1
 ```
 
 # Licence

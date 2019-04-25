@@ -1,0 +1,35 @@
+FROM ubuntu:xenial
+
+RUN apt-get update && apt-get -y install cmake git build-essential vim python wget
+
+RUN cd /tmp && \
+    wget -qO "wasi-sdk.tar.gz" "https://github.com/CraneStation/wasi-sdk/releases/download/wasi-sdk-4/wasi-sdk-4.0-linux-amd64.tar.gz" && \
+    mkdir /opt/wasi-sdk && \
+    tar --strip-components=3 -xzvf "wasi-sdk.tar.gz" -C /opt/wasi-sdk && \
+    rm /tmp/wasi-sdk.tar.gz
+
+WORKDIR /src
+RUN git clone https://github.com/bitcoin-core/secp256k1/
+
+ENV AR=${target_host}-ar \
+AS=${target_host}-as \
+CC="/opt/wasi-sdk/bin/clang" \
+CXX="/opt/wasi-sdk/bin/clang++" \
+LD="/opt/wasi-sdk/bin/wasm-ld" \
+AR="/opt/wasi-sdk/bin/llvm-ar" \
+HOST="wasm32-unknown-wasi" \
+CFLAGS="--sysroot=/opt/wasi-sdk/share/sysroot --target=wasm32-unknown-wasi"
+
+WORKDIR /src/secp256k1
+RUN apt-get -y install autoconf libtool
+RUN ./autogen.sh
+RUN grep -q -F -- '-wasi' build-aux/config.sub || sed -i -e 's/-nacl\*)/-nacl*|-wasi)/' build-aux/config.sub
+RUN ./configure --enable-endomorphism --enable-module-ecdh \
+                --enable-module-recovery --with-asm=no --host=wasm32-unknown-wasi \
+                --with-bignum=no --enable-experimental \
+                --disable-exhaustive-tests --disable-tests \
+                --disable-benchmark
+RUN make
+VOLUME /data
+COPY entrypoint.sh entrypoint.sh
+ENTRYPOINT [ "./entrypoint.sh" ]

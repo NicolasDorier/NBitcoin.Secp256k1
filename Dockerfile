@@ -13,7 +13,7 @@ RUN git clone https://github.com/bitcoin-core/secp256k1/
 
 ENV AR=${target_host}-ar \
 AS=${target_host}-as \
-CC="/opt/wasi-sdk/bin/clang" \
+CC="/opt/wasi-sdk/bin/clang --sysroot=/opt/wasi-sdk/share/sysroot --target=wasm32-unknown-wasi" \
 CXX="/opt/wasi-sdk/bin/clang++" \
 LD="/opt/wasi-sdk/bin/wasm-ld" \
 AR="/opt/wasi-sdk/bin/llvm-ar" \

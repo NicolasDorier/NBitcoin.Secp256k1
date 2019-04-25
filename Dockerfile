@@ -9,11 +9,10 @@ RUN cd /tmp && \
     rm /tmp/wasi-sdk.tar.gz
 
 WORKDIR /src
+RUN apt-get -y install autoconf libtool
 RUN git clone https://github.com/bitcoin-core/secp256k1/
 
-ENV AR=${target_host}-ar \
-AS=${target_host}-as \
-CC="/opt/wasi-sdk/bin/clang --sysroot=/opt/wasi-sdk/share/sysroot --target=wasm32-unknown-wasi" \
+ENV CC="/opt/wasi-sdk/bin/clang" \
 CXX="/opt/wasi-sdk/bin/clang++" \
 LD="/opt/wasi-sdk/bin/wasm-ld" \
 AR="/opt/wasi-sdk/bin/llvm-ar" \
@@ -21,7 +20,6 @@ HOST="wasm32-unknown-wasi" \
 CFLAGS="--sysroot=/opt/wasi-sdk/share/sysroot --target=wasm32-unknown-wasi"
 
 WORKDIR /src/secp256k1
-RUN apt-get -y install autoconf libtool
 RUN ./autogen.sh
 RUN grep -q -F -- '-wasi' build-aux/config.sub || sed -i -e 's/-nacl\*)/-nacl*|-wasi)/' build-aux/config.sub
 RUN ./configure --enable-endomorphism --enable-module-ecdh \

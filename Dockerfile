@@ -28,5 +28,5 @@ RUN ./configure --prefix=/build --enable-endomorphism --enable-module-ecdh \
                 --with-bignum=no --enable-experimental \
                 --disable-exhaustive-tests --disable-tests \
                 --disable-benchmark
-RUN make && ${CC} ${CFLAGS} src/libsecp256k1_la-secp256k1.o -o libsecp256k1.wasm -Xlinker -shared
+RUN make && ${CC} ${CFLAGS} src/libsecp256k1_la-secp256k1.o -o libsecp256k1.wasm -Xlinker -shared -Xlinker --no-entry
 ENTRYPOINT bash -c "make install && cd /build/lib && cp /src/secp256k1/libsecp256k1.wasm libsecp256k1.wasm"

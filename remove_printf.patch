@@ -1,0 +1,144 @@
+diff --git a/src/bench.h b/src/bench.h
+index 5b59783..a748738 100644
+--- a/src/bench.h
++++ b/src/bench.h
+@@ -7,7 +7,7 @@
+ #ifndef SECP256K1_BENCH_H
+ #define SECP256K1_BENCH_H
+ 
+-#include <stdio.h>
++// #include <stdio.h>
+ #include <string.h>
+ #include <math.h>
+ #include "sys/time.h"
+diff --git a/src/bench_ecmult.c b/src/bench_ecmult.c
+index 6d0ed1f..39361d8 100644
+--- a/src/bench_ecmult.c
++++ b/src/bench_ecmult.c
+@@ -3,7 +3,7 @@
+  * Distributed under the MIT software license, see the accompanying   *
+  * file COPYING or http://www.opensource.org/licenses/mit-license.php.*
+  **********************************************************************/
+-#include <stdio.h>
++// #include <stdio.h>
+ 
+ #include "include/secp256k1.h"
+ 
+diff --git a/src/bench_internal.c b/src/bench_internal.c
+index 9071724..48d3413 100644
+--- a/src/bench_internal.c
++++ b/src/bench_internal.c
+@@ -3,7 +3,7 @@
+  * Distributed under the MIT software license, see the accompanying   *
+  * file COPYING or http://www.opensource.org/licenses/mit-license.php.*
+  **********************************************************************/
+-#include <stdio.h>
++// #include <stdio.h>
+ 
+ #include "include/secp256k1.h"
+ 
+diff --git a/src/bench_verify.c b/src/bench_verify.c
+index 418defa..c9f9a06 100644
+--- a/src/bench_verify.c
++++ b/src/bench_verify.c
+@@ -4,7 +4,7 @@
+  * file COPYING or http://www.opensource.org/licenses/mit-license.php.*
+  **********************************************************************/
+ 
+-#include <stdio.h>
++// #include <stdio.h>
+ #include <string.h>
+ 
+ #include "include/secp256k1.h"
+diff --git a/src/gen_context.c b/src/gen_context.c
+index 87d296e..ca0fdfa 100644
+--- a/src/gen_context.c
++++ b/src/gen_context.c
+@@ -12,6 +12,7 @@
+ #include "scalar_impl.h"
+ #include "group_impl.h"
+ #include "ecmult_gen_impl.h"
++#include <stdio.h>
+ 
+ static void default_error_callback_fn(const char* str, void* data) {
+     (void)data;
+diff --git a/src/secp256k1.c b/src/secp256k1.c
+index 15981f4..4fc2392 100644
+--- a/src/secp256k1.c
++++ b/src/secp256k1.c
+@@ -28,8 +28,8 @@
+ 
+ static void default_illegal_callback_fn(const char* str, void* data) {
+     (void)data;
+-    fprintf(stderr, "[libsecp256k1] illegal argument: %s\n", str);
+-    abort();
++    // fprintf(stderr, "[libsecp256k1] illegal argument: %s\n", str);
++    // abort();
+ }
+ 
+ static const secp256k1_callback default_illegal_callback = {
+@@ -39,8 +39,8 @@ static const secp256k1_callback default_illegal_callback = {
+ 
+ static void default_error_callback_fn(const char* str, void* data) {
+     (void)data;
+-    fprintf(stderr, "[libsecp256k1] internal consistency check failed: %s\n", str);
+-    abort();
++    // fprintf(stderr, "[libsecp256k1] internal consistency check failed: %s\n", str);
++    // abort();
+ }
+ 
+ static const secp256k1_callback default_error_callback = {
+diff --git a/src/tests.c b/src/tests.c
+index f1c4db9..f6a0d8f 100644
+--- a/src/tests.c
++++ b/src/tests.c
+@@ -8,7 +8,7 @@
+ #include "libsecp256k1-config.h"
+ #endif
+ 
+-#include <stdio.h>
++// #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ 
+diff --git a/src/tests_exhaustive.c b/src/tests_exhaustive.c
+index ab9779b..adcae38 100644
+--- a/src/tests_exhaustive.c
++++ b/src/tests_exhaustive.c
+@@ -8,7 +8,7 @@
+ #include "libsecp256k1-config.h"
+ #endif
+ 
+-#include <stdio.h>
++// #include <stdio.h>
+ #include <stdlib.h>
+ 
+ #include <time.h>
+diff --git a/src/util.h b/src/util.h
+index e1f5b76..c927de6 100644
+--- a/src/util.h
++++ b/src/util.h
+@@ -13,7 +13,7 @@
+ 
+ #include <stdlib.h>
+ #include <stdint.h>
+-#include <stdio.h>
++// #include <stdio.h>
+ 
+ typedef struct {
+     void (*fn)(const char *text, void* data);
+@@ -25,12 +25,12 @@ static SECP256K1_INLINE void secp256k1_callback_call(const secp256k1_callback *
+ }
+ 
+ #ifdef DETERMINISTIC
+-#define TEST_FAILURE(msg) do { \
++#define TEST_FAILURE(msg) // do { \
+     fprintf(stderr, "%s\n", msg); \
+     abort(); \
+ } while(0);
+ #else
+-#define TEST_FAILURE(msg) do { \
++#define TEST_FAILURE(msg) // do { \
+     fprintf(stderr, "%s:%d: %s\n", __FILE__, __LINE__, msg); \
+     abort(); \
+ } while(0)

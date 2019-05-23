@@ -8,14 +8,14 @@ RUN cd /tmp && \
     tar --strip-components=3 -xzvf "wasi-sdk.tar.gz" -C /opt/wasi-sdk && \
     rm /tmp/wasi-sdk.tar.gz
 
-WORKDIR /src
-RUN apt-get -y install autoconf libtool
-RUN git clone https://github.com/bitcoin-core/secp256k1/
-
 RUN cd /tmp && \
     wget -qO "wabt.tar.gz" "https://github.com/WebAssembly/wabt/releases/download/1.0.10/wabt-1.0.10-linux.tar.gz" && \
     tar --strip-components=1 -xzvf "wabt.tar.gz" -C /usr/bin && \
     rm /tmp/wabt.tar.gz
+
+WORKDIR /src
+RUN apt-get -y install autoconf libtool
+RUN git clone https://github.com/bitcoin-core/secp256k1/ && git checkout b19c000063be11018b4d1a6b0a85871ab9d0bdcf
 
 ENV CC="/opt/wasi-sdk/bin/clang" \
 CXX="/opt/wasi-sdk/bin/clang++" \
